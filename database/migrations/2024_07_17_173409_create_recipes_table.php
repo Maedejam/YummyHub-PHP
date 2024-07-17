@@ -13,13 +13,19 @@ return new class extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('creators')->onDelete('cascade');
+            $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('category_id');
             $table->string('title');
             $table->text('description')->nullable();
             $table->text('instructions');
-            $table->string('photo_url')->nullable();
+            $table->string('cover_photo_url')->nullable(); // Cover photo
+            $table->integer('cooking_time')->unsigned(); // Cooking time in minutes
+            $table->integer('servings')->unsigned(); // Number of servings
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('creator_id')->references('id')->on('creators')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             
             // Indexes
             $table->index('title');

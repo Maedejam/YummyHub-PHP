@@ -13,17 +13,14 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('recipe_id');
-            $table->tinyInteger('vote'); // Cambiar según tus necesidades
+            $table->unsignedBigInteger('creator_id');
+            $table->tinyInteger('rating'); // Rating from 1 to 5
             $table->timestamps();
-
+        
             // Foreign keys
-            $table->foreign('user_id')->references('id')->on('creators')->onDelete('cascade');
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
-
-            // Ensure each user can only vote once per recipe
-            $table->unique(['user_id', 'recipe_id']);
+            $table->foreign('creator_id')->references('id')->on('creators')->onDelete('cascade');
         });
     }
 
