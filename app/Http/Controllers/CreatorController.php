@@ -29,6 +29,7 @@ class CreatorController extends Controller
         $creator->name=request('name');
         $creator->email=request('email');        
         $creator->password=request('password');
+
         $creator->save();
 
         return response()->json($creator,201);
@@ -48,7 +49,7 @@ class CreatorController extends Controller
     public function destroy($id){
         $creator = Creator::find($id);
         $creator->delete();
-        
+
         return response()->json($creator,200);
     }
 }
