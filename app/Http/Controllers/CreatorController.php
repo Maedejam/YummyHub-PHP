@@ -48,7 +48,7 @@ class CreatorController extends Controller
     public function destroy($id){
         $creator = Creator::find($id);
         $creator->delete();
-
+        
         return response()->json($creator,200);
     }
 }
