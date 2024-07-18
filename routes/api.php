@@ -9,3 +9,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/creators',[CreatorController::class, 'index']);
+Route::post('/creators',[CreatorController::class, 'store']);
+Route::put('/creators/{id}',[CreatorController::class, 'update']);
+Route::delete('/creators/{id}',[CreatorController::class, 'destroy']);
