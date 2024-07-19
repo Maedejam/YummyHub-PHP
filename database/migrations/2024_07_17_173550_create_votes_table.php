@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('recipe_id');
-            $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('user_id');
             $table->tinyInteger('rating'); // Rating from 1 to 5
             $table->timestamps();
         
             // Foreign keys
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
-            $table->foreign('creator_id')->references('id')->on('creators')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

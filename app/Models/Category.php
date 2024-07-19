@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class RecipeIngredient extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'recipe_id',
-        'ingredient_id',
-        'quantity',
-        'unit'
+        'name'
     ];
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
 }
