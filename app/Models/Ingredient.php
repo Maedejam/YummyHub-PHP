@@ -17,7 +17,11 @@ class Ingredient extends Model
     /**
      * Relationship: An ingredient belongs to many recipes.
      */
+<<<<<<< HEAD
     public function recipes():BelongsToMany
+=======
+    public function recipes(): BelongsToMany
+>>>>>>> Mae
     {
         return $this->belongsToMany(Recipe::class, 'recipe_ingredients')
                     ->withPivot('quantity', 'unit')

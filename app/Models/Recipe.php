@@ -13,6 +13,7 @@ class Recipe extends Model
     use HasFactory;
 
     protected $fillable = [
+<<<<<<< HEAD
         'user_id',
         'title',
         'description',
@@ -73,5 +74,21 @@ class Recipe extends Model
     public function averageRating()
     {
         return $this->votes()->avg('rating');
+=======
+        'title',
+        'description',
+        'ingredients',
+        'instructions',
+    ];
+
+    public function votes() {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function ingredients() {
+        return $this->belongsToMany(Ingredient::class, 'recipe_ingredients')
+                    ->withPivot('quantity', 'unit')
+                    ->withTimestamps();
+>>>>>>> Mae
     }
 }

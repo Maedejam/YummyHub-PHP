@@ -13,6 +13,19 @@ class RecipeIngredient extends Model
         'recipe_id',
         'ingredient_id',
         'quantity',
+<<<<<<< HEAD
         'unit'
     ];
+=======
+        'unit',
+    ];
+
+    public function recipe() {
+        return $this->belongsTo(Recipe::class);
+    }
+
+    public function ingredient() {
+        return $this->belongsTo(Ingredient::class);
+    }
+>>>>>>> Mae
 }
