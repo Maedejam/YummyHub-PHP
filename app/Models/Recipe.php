@@ -13,7 +13,6 @@ class Recipe extends Model
     use HasFactory;
 
     protected $fillable = [
-<<<<<<< HEAD
         'user_id',
         'title',
         'description',
@@ -21,15 +20,14 @@ class Recipe extends Model
         'photo_url',
         'cook_time',
         'servings',
-        'category_id'
+        'category_id',
+        'ingredients'
     ];
-
-    
 
     /**
      * Get the user that owns the recipe.
      */
-    public function userRecipe():BelongsTo
+    public function userRecipe(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -37,7 +35,7 @@ class Recipe extends Model
     /**
      * Get the category that the recipe belongs to.
      */
-    public function category():BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -45,15 +43,17 @@ class Recipe extends Model
     /**
      * The ingredients that belong to the recipe.
      */
-    public function ingredients():BelongsToMany
+    public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany(Ingredient::class, 'recipe_ingredients')->withPivot('quantity');
+        return $this->belongsToMany(Ingredient::class, 'recipe_ingredients')
+                    ->withPivot('quantity', 'unit')
+                    ->withTimestamps();
     }
 
     /**
      * Get the comments for the recipe.
      */
-    public function comments():HasMany
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
@@ -61,7 +61,7 @@ class Recipe extends Model
     /**
      * Get the votes for the recipe.
      */
-    public function votes():HasMany
+    public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
     }
@@ -74,21 +74,5 @@ class Recipe extends Model
     public function averageRating()
     {
         return $this->votes()->avg('rating');
-=======
-        'title',
-        'description',
-        'ingredients',
-        'instructions',
-    ];
-
-    public function votes() {
-        return $this->hasMany(Vote::class);
-    }
-
-    public function ingredients() {
-        return $this->belongsToMany(Ingredient::class, 'recipe_ingredients')
-                    ->withPivot('quantity', 'unit')
-                    ->withTimestamps();
->>>>>>> Mae
     }
 }

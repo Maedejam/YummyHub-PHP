@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Vote extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
 
     protected $fillable = [
         'user_id',
@@ -29,15 +28,6 @@ class Vote extends Model
      */
     public function recipe()
     {
-=======
-    protected $fillable = ['user_id', 'recipe_id', 'rating'];
-
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
-
-    public function recipe() {
->>>>>>> Mae
         return $this->belongsTo(Recipe::class);
     }
 }

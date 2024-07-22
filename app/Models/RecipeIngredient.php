@@ -13,10 +13,6 @@ class RecipeIngredient extends Model
         'recipe_id',
         'ingredient_id',
         'quantity',
-<<<<<<< HEAD
-        'unit'
-    ];
-=======
         'unit',
     ];
 
@@ -27,5 +23,4 @@ class RecipeIngredient extends Model
     public function ingredient() {
         return $this->belongsTo(Ingredient::class);
     }
->>>>>>> Mae
 }
