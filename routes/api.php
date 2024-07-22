@@ -10,9 +10,12 @@ use App\Http\Controllers\VoteController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\RecipeIngredientController;
 
-Route::get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::middleware(['auth:sanctum'])->apiResource('users.recipes', RecipeController::class);
+
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);

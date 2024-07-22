@@ -26,8 +26,8 @@ class Recipe extends Model
 
     /**
      * Get the user that owns the recipe.
-     */
-    public function userRecipe(): BelongsTo
+     */ 
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
