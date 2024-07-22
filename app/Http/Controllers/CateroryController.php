@@ -8,13 +8,6 @@ use Illuminate\Http\Request;
 class CateroryController extends Controller
 {
     //
-
-    public function index($id){
-        $category = Category::find($id);
-        return response()->json(@$category,200);
-    }
-
-
     public function getRecipesByCategory($id)
     {
         // Find the category by ID

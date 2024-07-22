@@ -21,10 +21,14 @@ Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
 // Get recipes by category ID
-Route::get('/category/{id}', [CateroryController::class, 'index']);
-Route::get('/categories/{id}', [CateroryController::class, 'getRecipesByCategory']);
-
+Route::get('/category/{id}', [CateroryController::class, 'getRecipesByCategory']);
+//Gett all recipes
 Route::get('/recipes', [RecipeController::class, 'index']);
+//Search for a word in recipes
+Route::get('/recipes', [RecipeController::class, 'searchWord']);
+
+
+
 Route::put('/comments/{id}', [CommentController::class, 'update']);
 Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
 Route::get('/recipes/{id}/comments', [CommentController::class, 'getCommentsByRecipe']);
