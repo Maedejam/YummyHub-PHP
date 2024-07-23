@@ -29,6 +29,8 @@ Route::get('/category/{id}', [CateroryController::class, 'getRecipesByCategory']
 Route::get('/recipes', [RecipeController::class, 'index']);
 //Search for a word in recipes
 Route::get('/recipes', [RecipeController::class, 'searchWord']);
+Route::get('/recipe/{id}', [RecipeController::class, 'show']);
+
 
 
 

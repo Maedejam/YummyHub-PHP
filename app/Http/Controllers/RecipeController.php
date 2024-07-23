@@ -39,4 +39,18 @@ class RecipeController extends Controller
         
     }
 
+    public function show($id)
+    {
+        // Find the category by ID
+        $recipe = Recipe::find($id);
+
+        // Check if category exists
+        if (!$recipe) {
+            return response()->json(['message' => 'Not found'], 404);
+        }
+
+        // Return recipes as JSON response
+        return response()->json($recipe,200);
+    }
+
 }
