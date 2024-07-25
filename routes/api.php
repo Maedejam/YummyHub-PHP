@@ -14,7 +14,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::middleware(['auth:sanctum'])->apiResource('users.recipes', RecipeController::class);
+Route::middleware(['auth:sanctum'])->apiResource('user.recipes', RecipeController::class);
 
 
 Route::get('/users', [UserController::class, 'index']);
