@@ -4,6 +4,6 @@ Description: A web application where registered users can create, share, and man
 
 Project structure:Laravel with Sanctum
 
-group members: Ruaa Thamer, 
+group members: 
                Lissette Lindao, 
                Maedeh Jam.
