@@ -20,30 +20,25 @@ const Login = () => {
         event.preventDefault();
         setError(""); // Limpiar el mensaje de error
 
-        try {
-            const response = await fetch("http://127.0.0.1:8000/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Failed to login");
-            }
-
-            const data = await response.json();
-            if (data.token) {
-                navigate("/profile");
-            } else {
-                setError("Unexpected error occurred.");
-            }
-        } catch (error) {
-            setError(error.message); // Mostrar el mensaje de error
-        }
+        fetch("http://127.0.0.1:8000/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.token) {
+                    // Almacena el token en localStorage
+                    localStorage.setItem("token", data.token);
+                    navigate("/profile");
+                } else {
+                    setError("Invalid credentials. Please try again.");
+                }
+            })
+            .catch((error) => setError("Error: Failed to fetch"));
     };
 
     return (
