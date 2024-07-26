@@ -11,6 +11,7 @@ import Recipe from "./pages/Recipe";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
+import RecipePage from "./pages/RecipePage";
 
 function AppContent() {
     const location = useLocation();
@@ -24,7 +25,9 @@ function AppContent() {
                     <Route path="/" element={<Home />} />
                     <Route path="/recipe/:id" element={<Recipe />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/recipes" element={<RecipePage />} />
                 </Routes>
             </div>
         </>
