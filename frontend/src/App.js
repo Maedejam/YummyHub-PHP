@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import RecipePage from "./pages/RecipePage";
 import Register from "./pages/Register";
+import Footer from "./components/Footer";
 
 function AppContent() {
     const location = useLocation();
@@ -31,6 +32,7 @@ function AppContent() {
                     <Route path="/recipes" element={<RecipePage />} />
                 </Routes>
             </div>
+            <Footer />
         </>
     );
 }
