@@ -61,9 +61,9 @@ class Recipe extends Model
     /**
      * Get the votes for the recipe.
      */
-    public function votes(): HasMany
+    public function votes():HasMany
     {
-        return $this->hasMany(Vote::class);
+        return $this->hasMany(Vote::class, 'recipe_id');
     }
 
     /**

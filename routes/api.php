@@ -30,6 +30,7 @@ Route::get('/recipes', [RecipeController::class, 'index']);
 //Search for a word in recipes
 Route::get('/recipes', [RecipeController::class, 'searchWord']);
 Route::get('/recipe/{id}', [RecipeController::class, 'show']);
+Route::get('/latest-recipe', [RecipeController::class, 'latest']);
 
 
 
@@ -54,3 +55,6 @@ Route::get('/recipes/{recipeId}/ingredients', [RecipeIngredientController::class
 Route::post('/recipes/{recipeId}/ingredients', [RecipeIngredientController::class, 'store']);
 Route::put('/recipes/{recipeId}/ingredients/{ingredientId}', [RecipeIngredientController::class, 'update']);
 Route::delete('/recipes/{recipeId}/ingredients/{ingredientId}', [RecipeIngredientController::class, 'destroy']);
+
+
+Route::get('/recipe/{id}/ingredients', [IngredientController::class, 'getIngredients']);

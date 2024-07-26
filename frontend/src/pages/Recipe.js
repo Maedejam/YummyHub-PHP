@@ -1,6 +1,8 @@
 // src/pages/RecipePage.js
+import { Container } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import RecipeIngredients from "../components/RecipeIngredients";
 
 function Recipe() {
     const [recipe, setRecipe] = useState(null);
@@ -18,13 +20,15 @@ function Recipe() {
     if (!recipe) return <div>Loading...</div>;
 
     return (
-        <div>
+        <Container maxWidth="lg" sx={{ padding: 4 }}>
             <h1>{recipe.title}</h1>
             <img src={recipe.cover_photo_url} alt={recipe.title} />
             <p>Total Time: {recipe.cooking_time} mins</p>
+            <RecipeIngredients recipeId={id} />
+            <h3>Description</h3>
             <p>{recipe.description}</p>
             <p>{recipe.instructions}</p>
-        </div>
+        </Container>
     );
 }
 

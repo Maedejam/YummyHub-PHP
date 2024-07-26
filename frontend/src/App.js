@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Recipe from "./pages/Recipe";
 import Login from "./pages/Login";
 import Header from "./components/Header";
+import Profile from "./pages/Profile";
 
 function AppContent() {
     const location = useLocation();
@@ -23,6 +24,7 @@ function AppContent() {
                     <Route path="/" element={<Home />} />
                     <Route path="/recipe/:id" element={<Recipe />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>
         </>

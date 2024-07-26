@@ -4,19 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Recipe;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RecipeController extends Controller
 {
     /*
+    public function index(User $user){
+        return response()->json(Auth::user()->recipes,200);
+    }
+*/
     public function index(){
         $recipes = Recipe::all();
         return response()->json($recipes,200);
-    }
-*/
-    public function index(User $user){
-        return response()->json(Auth::user()->recipes,200);
     }
 
     public function searchWord(Request $request)
@@ -52,5 +53,12 @@ class RecipeController extends Controller
         // Return recipes as JSON response
         return response()->json($recipe,200);
     }
+
+    public function latest(): JsonResponse
+    {
+        $recipe = Recipe::latest()->first();
+        return response()->json($recipe);
+    }
+   
 
 }
