@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import RecipePage from "./pages/RecipePage";
+import Register from "./pages/Register";
 
 function AppContent() {
     const location = useLocation();

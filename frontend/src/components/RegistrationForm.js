@@ -1,6 +1,5 @@
 // src/components/RegistrationForm.js
 import React, { useState } from "react";
-import axios from "axios";
 import "../css/Register.css";
 
 const RegistrationForm = () => {
@@ -18,11 +17,20 @@ const RegistrationForm = () => {
         };
 
         try {
-            const response = await axios.post(
-                "http://localhost:8000/api/users",
-                user
-            );
-            console.log(response.data);
+            const response = await fetch("http://localhost:8000/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(user),
+            });
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            const data = await response.json();
+            console.log(data);
             // Handle successful registration
         } catch (error) {
             console.error(error);
