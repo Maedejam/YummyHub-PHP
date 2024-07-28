@@ -17,7 +17,8 @@ import Footer from "./components/Footer";
 
 function AppContent() {
     const location = useLocation();
-    const showHeader = location.pathname !== "/login";
+    const showHeader =
+        location.pathname !== "/login" && location.pathname !== "/register";
 
     return (
         <>
@@ -32,7 +33,8 @@ function AppContent() {
                     <Route path="/recipes" element={<RecipePage />} />
                 </Routes>
             </div>
-            <Footer />
+
+            {showHeader && <Footer />}
         </>
     );
 }
