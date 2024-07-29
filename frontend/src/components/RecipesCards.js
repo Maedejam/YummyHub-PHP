@@ -13,7 +13,7 @@ import { styled } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-const apiUrl = "http://localhost:8000/api/category/10";
+const apiUrl = "http://localhost:8000/api/recipes";
 
 const StarRating = styled("div")(({ votes }) => ({
     display: "inline-block",

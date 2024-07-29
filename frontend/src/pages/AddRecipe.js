@@ -7,6 +7,10 @@ import {
     Typography,
     Grid,
     Box,
+    MenuItem,
+    Select,
+    InputLabel,
+    FormControl,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -22,6 +26,8 @@ const AddRecipe = () => {
     const [cookingTime, setCookingTime] = useState("");
     const [servings, setServings] = useState(1);
     const [error, setError] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(1); // Default category ID
     const navigate = useNavigate();
     const { id } = useParams(); // Obtener el ID de la URL
 
@@ -58,14 +64,28 @@ const AddRecipe = () => {
                     setInstructions(data.instructions);
                     setCookingTime(data.cooking_time);
                     setServings(data.servings);
+                    setSelectedCategory(data.category_id); // Set the category ID for editing
                 } catch (error) {
                     setError("Failed to load recipe data.");
                 }
             }
         };
 
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch(
+                    "http://127.0.0.1:8000/api/categories"
+                );
+                const data = await response.json();
+                setCategories(data);
+            } catch (error) {
+                setError("Failed to load categories.");
+            }
+        };
+
         fetchUser();
         fetchRecipe();
+        fetchCategories();
     }, [id]);
 
     const handleSubmit = async (event) => {
@@ -88,6 +108,7 @@ const AddRecipe = () => {
         formData.append("instructions", instructions);
         formData.append("cooking_time", cookingTime);
         formData.append("servings", servings);
+        formData.append("category_id", selectedCategory); // Add selected category ID
         formData.append("user_id", userId);
 
         fetch(
@@ -103,7 +124,6 @@ const AddRecipe = () => {
         )
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 if (data.id) {
                     navigate("/profile");
                 } else {
@@ -235,6 +255,25 @@ const AddRecipe = () => {
                             value={servings}
                             onChange={(e) => setServings(e.target.value)}
                         />
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel>Category</InputLabel>
+                            <Select
+                                value={selectedCategory}
+                                onChange={(e) =>
+                                    setSelectedCategory(e.target.value)
+                                }
+                                label="Category"
+                            >
+                                {categories.map((category) => (
+                                    <MenuItem
+                                        key={category.id}
+                                        value={category.id}
+                                    >
+                                        {category.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                         <Button
                             type="submit"
                             variant="contained"

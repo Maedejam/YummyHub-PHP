@@ -15,6 +15,7 @@ import RecipePage from "./pages/RecipePage";
 import Register from "./pages/Register";
 import Footer from "./components/Footer";
 import AddRecipe from "./pages/AddRecipe";
+import Recipes from "./pages/Recipes";
 
 function AppContent() {
     const location = useLocation();
@@ -31,9 +32,9 @@ function AppContent() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
-                    <Route path="/recipes" element={<RecipePage />} />
                     <Route path="/recipe/add" element={<AddRecipe />} />
                     <Route path="/recipe/edit/:id" element={<AddRecipe />} />
+                    <Route path="/recipes" element={<Recipes />} />
                 </Routes>
             </div>
 

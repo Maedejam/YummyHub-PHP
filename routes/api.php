@@ -46,6 +46,9 @@ Route::put('/recipe/update/{id}', [RecipeController::class, 'update']);
 //delete recipe
 Route::middleware('auth:sanctum')->delete('/recipe/{id}', [RecipeController::class, 'destroy']);
 
+//get all categories
+Route::get('/categories', [CateroryController::class, 'index']);
+
 
 
 Route::put('/comments/{id}', [CommentController::class, 'update']);

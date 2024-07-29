@@ -55,7 +55,6 @@ function Header() {
                         <NavLink to="/">Home</NavLink>
                         <NavLink to="/about">About</NavLink>
                         <NavLink to="/contact">Contact</NavLink>
-                        {token && <NavLink to="/profile">Dashboard</NavLink>}
                     </NavLinks>
                     <AuthButtons>
                         {!token ? (
@@ -76,15 +75,27 @@ function Header() {
                                 </Button>
                             </>
                         ) : (
-                            <Button
-                                variant="contained"
-                                onClick={() => {
-                                    localStorage.removeItem("token");
-                                    navigate("/");
-                                }}
-                            >
-                                Logout
-                            </Button>
+                            <>
+                                <NavLink
+                                    variant="contained"
+                                    color="primary"
+                                    component={Link}
+                                    to="/recipe/add"
+                                    sx={{ ml: 2 }}
+                                >
+                                    + Add Recipe
+                                </NavLink>
+                                <NavLink to="/profile">Dashboard</NavLink>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => {
+                                        localStorage.removeItem("token");
+                                        navigate("/");
+                                    }}
+                                >
+                                    Logout
+                                </Button>
+                            </>
                         )}
                     </AuthButtons>
                 </Toolbar>

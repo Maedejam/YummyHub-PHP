@@ -1,6 +1,6 @@
 // src/pages/Profile.js
 import React, { useEffect, useState } from "react";
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Container, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import RecipesByUserCards from "../components/RecipesByUserCards";
 
@@ -53,16 +53,6 @@ const Profile = () => {
                 ) : (
                     <Typography>No user data available.</Typography>
                 )}
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => {
-                        localStorage.removeItem("token");
-                        navigate("/login");
-                    }}
-                >
-                    Logout
-                </Button>
             </Box>
             <RecipesByUserCards userId={user.id} />
         </Container>

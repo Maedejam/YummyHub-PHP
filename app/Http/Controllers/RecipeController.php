@@ -70,6 +70,7 @@ class RecipeController extends Controller
             'instructions' => 'nullable|string',
             'cooking_time' => 'required|integer|min:1',
             'servings' => 'nullable|integer|min:1|max:10',
+            'category_id' => 'required|integer',
         ]);
 
         // Guardar la imagen en la carpeta public/upload
@@ -80,6 +81,7 @@ class RecipeController extends Controller
             $validated['cover_photo_url'] = 'upload/' . $filename;
         }
 
+
         // Crear una nueva receta
         $recipe = new Recipe();
         $recipe->title = $validated['title'];
@@ -88,7 +90,7 @@ class RecipeController extends Controller
         $recipe->instructions = $validated['instructions'];
         $recipe->cooking_time = $validated['cooking_time'];
         $recipe->servings = $validated['servings'];
-        $recipe->category_id = 1;
+        $recipe->category_id=$validated['category_id'];
         $recipe->user_id = auth()->id(); // Asocia la receta con el usuario actualmente autenticado
         $recipe->save();
 
