@@ -1,6 +1,6 @@
 // src/pages/Profile.js
 import React, { useEffect, useState } from "react";
-import { Container, Typography, Box } from "@mui/material";
+import { Container, Typography, Box, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import RecipesByUserCards from "../components/RecipesByUserCards";
 
@@ -36,7 +36,20 @@ const Profile = () => {
             });
     }, [navigate]);
 
-    if (loading) return <Typography>Loading...</Typography>;
+    if (loading)
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <CircularProgress />
+            </Box>
+        );
+
     if (error) return <Typography color="error">{error}</Typography>;
 
     return (
@@ -54,7 +67,7 @@ const Profile = () => {
                     <Typography>No user data available.</Typography>
                 )}
             </Box>
-            <RecipesByUserCards userId={user.id} />
+            {user && <RecipesByUserCards userId={user.id} />}
         </Container>
     );
 };
