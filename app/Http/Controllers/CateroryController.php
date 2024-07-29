@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class CateroryController extends Controller
 {
+
+    public function index(){
+        $categories = Category::all();
+        return response()->json($categories,200);
+    }
+
     //
     public function getRecipesByCategory($id)
     {

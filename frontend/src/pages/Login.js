@@ -1,5 +1,5 @@
 // src/pages/Login.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Box,
     Button,
@@ -7,14 +7,23 @@ import {
     Grid,
     TextField,
     Typography,
+    Link,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(""); // Agregar estado para mensajes de error
+    const [error, setError] = useState(""); // Estado para mensajes de error
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Verifica si ya existe un token en localStorage
+        const token = localStorage.getItem("token");
+        if (token) {
+            navigate("/profile"); // Redirige a /profile si hay un token
+        }
+    }, [navigate]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -79,6 +88,7 @@ const Login = () => {
                             variant="outlined"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            required
                         />
                         <TextField
                             fullWidth
@@ -88,6 +98,7 @@ const Login = () => {
                             variant="outlined"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            required
                         />
                         <Button
                             type="submit"
@@ -99,6 +110,10 @@ const Login = () => {
                             Submit
                         </Button>
                     </form>
+                    <Typography sx={{ mt: 2 }}>
+                        Don't have an account?{" "}
+                        <Link href="/register">Register</Link>
+                    </Typography>
                 </Container>
             </Grid>
         </Grid>

@@ -17,11 +17,10 @@ class Recipe extends Model
         'title',
         'description',
         'instructions',
-        'photo_url',
-        'cook_time',
+        'cover_photo_url',
+        'cooking_time',
         'servings',
         'category_id',
-        'ingredients'
     ];
 
     /**

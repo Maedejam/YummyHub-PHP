@@ -1,102 +1,124 @@
-// src/components/RegistrationForm.js
-import React, { useState } from "react";
-import "../css/Register.css";
+import React, { useState, useEffect } from "react";
+import { Button, Container, TextField, Typography, Link } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState(""); // Estado para mensajes de error
+    const navigate = useNavigate();
+
+    // Verificación del localStorage al cargar el componente
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            navigate("/profile");
+        }
+    }, [navigate]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setError(""); // Limpiar el mensaje de error
 
-        const user = {
-            name: name,
-            email: email,
-            password: password,
-        };
-
-        try {
-            const response = await fetch("http://localhost:8000/api/users", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(user),
-            });
-
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            const data = await response.json();
-            console.log(data);
-            // Handle successful registration
-        } catch (error) {
-            console.error(error);
-            // Handle registration error
+        if (password !== confirmPassword) {
+            setError("Passwords do not match. Please try again.");
+            return;
         }
+
+        fetch("http://127.0.0.1:8000/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.access_token) {
+                    // Almacena el token en localStorage
+                    localStorage.setItem("token", data.access_token);
+                    navigate("/profile");
+                } else {
+                    setError("Registration failed. Please try again.");
+                }
+            })
+            .catch((error) => setError("Error: Failed to fetch"));
     };
 
     return (
-        <div className="registration-container">
-            <div className="registration-left">
-                <h2>Embark on a culinary journey with us!</h2>
-                <p>
-                    Sign up to unlock a world of delicious recipes, and
-                    personalized cooking experiences.
-                </p>
-            </div>
-            <div className="registration-right">
-                <div className="registration-form">
-                    <h2>Create an Account</h2>
-                    <div className="social-signin">
-                        <button className="btn social-btn">
-                            Sign up with Facebook
-                        </button>
-                        <button className="btn social-btn">
-                            Sign up with Google
-                        </button>
-                    </div>
-                    <p className="or">OR</p>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label>Full Name</label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>E-mail Address</label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <button type="submit" className="btn">
-                            Create Account
-                        </button>
-                    </form>
-                    <p>
-                        Already have an account? <a href="/login">Log In</a>
-                    </p>
-                </div>
-            </div>
-        </div>
+        <Container maxWidth="xs">
+            <Typography variant="h4" gutterBottom>
+                Register
+            </Typography>
+            {error && (
+                <Typography color="error" gutterBottom>
+                    {error}
+                </Typography>
+            )}
+            <form onSubmit={handleSubmit}>
+                <TextField
+                    fullWidth
+                    label="Name"
+                    margin="normal"
+                    variant="outlined"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
+                <TextField
+                    fullWidth
+                    label="Email"
+                    margin="normal"
+                    variant="outlined"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <TextField
+                    fullWidth
+                    label="Password"
+                    type="password"
+                    margin="normal"
+                    variant="outlined"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <TextField
+                    fullWidth
+                    label="Confirm Password"
+                    type="password"
+                    margin="normal"
+                    variant="outlined"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ mt: 2 }}
+                >
+                    Register
+                </Button>
+            </form>
+            <Typography sx={{ mt: 2 }}>
+                Already have an account?{" "}
+                <Link href="/login" variant="body2">
+                    Login
+                </Link>
+            </Typography>
+        </Container>
     );
 };
 

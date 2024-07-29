@@ -19,10 +19,12 @@ function Recipe() {
 
     if (!recipe) return <div>Loading...</div>;
 
+    console.log(recipe.cover_photo_url);
+
     return (
-        <Container maxWidth="lg" sx={{ padding: 4 }}>
+        <Container maxWidth="lg" sx={{ py: 10 }}>
             <h1>{recipe.title}</h1>
-            <img src={recipe.cover_photo_url} alt={recipe.title} />
+            <img src={`../${recipe.cover_photo_url}`} alt={recipe.title} />
             <p>Total Time: {recipe.cooking_time} mins</p>
             <RecipeIngredients recipeId={id} />
             <h3>Description</h3>

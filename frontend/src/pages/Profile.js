@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import RecipesByUserCards from "../components/RecipesByUserCards";
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -18,7 +19,7 @@ const Profile = () => {
         }
 
         fetch("http://127.0.0.1:8000/api/user", {
-            // Endpoint para obtener los datos del usuario
+            // Endpoint to get the data info
             headers: {
                 Authorization: `Bearer ${token}`,
                 Accept: "application/json",
@@ -40,7 +41,7 @@ const Profile = () => {
 
     return (
         <Container>
-            <Box sx={{ mt: 4 }}>
+            <Box sx={{ my: 4 }}>
                 <Typography variant="h4">Profile</Typography>
                 {user ? (
                     <Box sx={{ mt: 2 }}>
@@ -63,6 +64,7 @@ const Profile = () => {
                     Logout
                 </Button>
             </Box>
+            <RecipesByUserCards userId={user.id} />
         </Container>
     );
 };
