@@ -1,12 +1,5 @@
 // src/components/AllRecipes.js
-import React, { useState, useEffect } from "react";
-import {
-    Container,
-    Grid,
-    Typography,
-    CircularProgress,
-    Box,
-} from "@mui/material";
+import { Grid, Typography, CircularProgress, Box } from "@mui/material";
 import Card from "./Card";
 
 const AllRecipes = ({ recipes, loading, error }) => {
