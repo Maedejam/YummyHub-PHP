@@ -11,9 +11,12 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import AllRecipes from "../components/AllRecipes";
+import RecipeSearch from "../components/RecipeSearch";
 
 const Recipes = () => {
     const [categories, setCategories] = useState([]);
+    const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -27,12 +30,59 @@ const Recipes = () => {
                 const data = await response.json();
                 setCategories(data); // Assuming the response is an array of categories
             } catch (error) {
-                setError("no categories");
+                setError("No categories found");
+            }
+        };
+
+        const fetchRecipes = async () => {
+            setLoading(true);
+            setError("");
+
+            try {
+                const response = await fetch(
+                    "http://localhost:8000/api/recipes"
+                );
+                if (!response.ok) throw new Error("Failed to fetch recipes");
+
+                const data = await response.json();
+
+                // Ordenar recetas por fecha de creación en orden descendente
+                const sortedRecipes = data.sort(
+                    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+                );
+
+                // Mostrar solo las primeras 12 recetas
+                setRecipes(sortedRecipes.slice(0, 12));
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError(error.message);
             }
         };
 
         fetchCategories();
+        fetchRecipes();
     }, []);
+
+    const handleSearch = async (searchTerm) => {
+        setLoading(true);
+        setError("");
+
+        try {
+            const response = await fetch(
+                `http://localhost:8000/api/recipes?search=${searchTerm}`
+            );
+            if (!response.ok) throw new Error("Failed to fetch recipes");
+
+            const data = await response.json();
+            console.log(data);
+            setRecipes(data); // Assuming the response is an array of recipes
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            setError("No recipes found");
+        }
+    };
 
     return (
         <Container maxWidth="lg" sx={{ my: 10 }}>
@@ -67,8 +117,13 @@ const Recipes = () => {
                         </List>
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={9}>
-                    <AllRecipes />
+                <Grid item xs={12} md={9} mt={2}>
+                    <RecipeSearch onSearch={handleSearch} />
+                    <AllRecipes
+                        recipes={recipes}
+                        loading={loading}
+                        error={error}
+                    />
                 </Grid>
             </Grid>
         </Container>

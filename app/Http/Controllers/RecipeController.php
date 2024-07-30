@@ -22,19 +22,21 @@ class RecipeController extends Controller
 */
     public function searchWord(Request $request)
     {
-        // Obtener la palabra de búsqueda del parámetro de consulta
+        // Get the search term from the query parameter
         $search = $request->input('search');
 
-        // Si hay una palabra de búsqueda, filtrar los resultados
+        // Initialize the query
+        $query = Recipe::query();
+
+        // Apply search filters if provided
         if ($search) {
-            $recipes = Recipe::where('title', 'like', '%' . $search . '%')
+            $query->where('title', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%')
-                ->orWhere('instructions', 'like', '%' . $search . '%')
-                ->get();
-        } else {
-            // Si no hay palabra de búsqueda, devolver todos los resultados
-            $recipes = Recipe::all();
+                ->orWhere('instructions', 'like', '%' . $search . '%');
         }
+
+        // Get the filtered recipes
+        $recipes = $query->get();
 
         return response()->json($recipes, 200);
         
