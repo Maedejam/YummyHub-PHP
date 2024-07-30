@@ -42,22 +42,14 @@ Route::get('/latest-recipe', [RecipeController::class, 'latest']);
 
 //create new recipe
 Route::middleware('auth:sanctum')->post('/recipe/add', [RecipeController::class, 'store']);
-Route::put('/recipe/update/{id}', [RecipeController::class, 'update']);
+Route::middleware('auth:sanctum')->put('/recipe/update/{id}', [RecipeController::class, 'update']);
+//Route::put('/recipe/update/{id}', [RecipeController::class, 'update']);
 //delete recipe
 Route::middleware('auth:sanctum')->delete('/recipe/{id}', [RecipeController::class, 'destroy']);
 
 //get all categories
 Route::get('/categories', [CateroryController::class, 'index']);
+//get by id
+Route::get('/category/{id}', [CateroryController::class, 'getRecipesByCategory']);
 
-
-
-Route::put('/comments/{id}', [CommentController::class, 'update']);
-Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
-Route::get('/recipes/{id}/comments', [CommentController::class, 'getCommentsByRecipe']);
-
-Route::post('/votes', [VoteController::class, 'store']);
-Route::put('/votes/{id}', [VoteController::class, 'update']);
-Route::delete('/votes/{id}', [VoteController::class, 'destroy']);
-Route::get('/recipes/{id}/votes', [VoteController::class, 'countVotes']);
-Route::get('/recipes/{id}/average-rating', [VoteController::class, 'averageRating']);
 
