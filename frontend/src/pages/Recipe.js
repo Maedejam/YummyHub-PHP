@@ -3,6 +3,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Card from "../components/Card"; // Asegúrate de que la ruta sea correcta
+import Comments from "../components/Comments";
 
 function Recipe() {
     const [recipe, setRecipe] = useState(null);
@@ -80,7 +81,7 @@ function Recipe() {
                 <h2>Description:</h2>
             </Typography>
             <p>{recipe.description}</p>
-            <Typography sx={{ pt: 10 }}>
+            <Typography sx={{ pt: 1 }}>
                 <h2>Instructions:</h2>
             </Typography>
             <p>{recipe.instructions}</p>
@@ -95,6 +96,8 @@ function Recipe() {
                     </Grid>
                 ))}
             </Grid>
+
+            <Comments recipeId={recipe.id} />
         </Container>
     );
 }

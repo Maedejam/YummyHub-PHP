@@ -56,3 +56,11 @@ Route::get('/categories', [CateroryController::class, 'index']);
 Route::get('/category/{id}', [CateroryController::class, 'getRecipesByCategory']);
 
 
+// get comments by recipe id
+Route::get('/recipe/{recipeId}/comments', [CommentController::class, 'getCommentsByRecipe']);
+
+// Create new comment
+Route::post('/comments', [CommentController::class, 'store'])->middleware('auth:sanctum');
+
+// Delete comment
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->middleware('auth:sanctum');
