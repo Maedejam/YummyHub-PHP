@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vote extends Model
 {
@@ -26,8 +27,8 @@ class Vote extends Model
     /**
      * Relationship: A vote belongs to a recipe.
      */
-    public function recipe()
+    public function recipe():BelongsTo
     {
-        return $this->belongsTo(Recipe::class);
+        return $this->belongsTo(Recipe::class, 'recipe_id');
     }
 }

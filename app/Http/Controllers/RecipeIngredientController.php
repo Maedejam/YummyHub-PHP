@@ -80,7 +80,6 @@ class RecipeIngredientController extends Controller
 
         // Detach the ingredient from the recipe
         $recipe->ingredients()->detach($ingredientId);
-
         return response()->json(['message' => 'Ingredient removed from recipe'], 200);
     }
 }

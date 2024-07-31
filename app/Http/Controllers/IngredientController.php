@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IngredientController extends Controller
 {
@@ -61,6 +63,17 @@ class IngredientController extends Controller
         $ingredient->delete();
 
         return response()->json(['message' => 'Ingredient deleted successfully'], 200);
+    }
+
+    public function getIngredients($recipeId): JsonResponse
+    {
+        $ingredients = DB::table('recipe_ingredients')
+            ->join('ingredients', 'recipe_ingredients.ingredient_id', '=', 'ingredients.id')
+            ->where('recipe_ingredients.recipe_id', $recipeId)
+            ->select('ingredients.name', 'recipe_ingredients.quantity', 'recipe_ingredients.unit')
+            ->get();
+
+        return response()->json($ingredients);
     }
 }
 

@@ -7,11 +7,13 @@ import {
     Typography,
     Grid,
     Container,
+    Box,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-const apiUrl = "http://localhost:8000/api/category/10";
+const apiUrl = "http://localhost:8000/api/recipes";
 
 const StarRating = styled("div")(({ votes }) => ({
     display: "inline-block",
@@ -47,6 +49,28 @@ const RecipesCards = () => {
 
     return (
         <Container maxWidth="lg" sx={{ p: 4 }}>
+            <Box sx={{ mt: 6, mb: 4 }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={8}>
+                        <Typography variant="h5" component="h1" gutterBottom>
+                            Effortless Eats
+                        </Typography>
+                        <Typography component="h2">
+                            Satisfy your cravings in a flash! Explore our Quick
+                            & Easy Meals for effortless recipes without
+                            compromising on mouthwatering taste.
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={4} alignItems="center">
+                        <Typography align="right">
+                            <Link href="#" variant="body1" color="primary">
+                                VIEW ALL RECIPES{" "}
+                            </Link>
+                            <ArrowForwardIcon sx={{ ml: 1 }} />
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Box>
             <Grid container spacing={2}>
                 {recipes.map((recipe) => (
                     <Grid item xs={12} sm={6} md={3} key={recipe.id}>
@@ -60,8 +84,8 @@ const RecipesCards = () => {
                             <CardContent>
                                 <Typography
                                     gutterBottom
-                                    variant="h5"
                                     component="div"
+                                    fontWeight={450}
                                 >
                                     {recipe.title}
                                 </Typography>

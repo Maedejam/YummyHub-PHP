@@ -24,7 +24,7 @@ class RecipeFactory extends Factory
             'cover_photo_url' => $this->faker->imageUrl(),
             'cooking_time' => $this->faker->numberBetween(10, 180), // minutes
             'servings' => $this->faker->numberBetween(1, 5),
-            'category_id' => $this->faker->numberBetween(10, 10), // assumes Category factory is defined
+            'category_id' => $this->faker->numberBetween(1, 10), // assumes Category factory is defined
             'user_id' => $this->faker->numberBetween(1,10), // assumes Creator factory is defined
             'created_at' => now(),
             'updated_at' => now(),

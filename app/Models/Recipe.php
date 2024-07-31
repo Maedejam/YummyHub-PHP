@@ -17,11 +17,10 @@ class Recipe extends Model
         'title',
         'description',
         'instructions',
-        'photo_url',
-        'cook_time',
+        'cover_photo_url',
+        'cooking_time',
         'servings',
         'category_id',
-        'ingredients'
     ];
 
     /**
@@ -37,7 +36,7 @@ class Recipe extends Model
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class,'category_id');
     }
 
     /**
@@ -61,9 +60,9 @@ class Recipe extends Model
     /**
      * Get the votes for the recipe.
      */
-    public function votes(): HasMany
+    public function votes():HasMany
     {
-        return $this->hasMany(Vote::class);
+        return $this->hasMany(Vote::class, 'recipe_id');
     }
 
     /**
