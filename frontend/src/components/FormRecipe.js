@@ -97,16 +97,6 @@ const FormRecipe = ({
                     />
                     <TextField
                         fullWidth
-                        label="Ingredients"
-                        margin="normal"
-                        variant="outlined"
-                        multiline
-                        rows={4}
-                        value={ingredients}
-                        onChange={(e) => setIngredients(e.target.value)}
-                    />
-                    <TextField
-                        fullWidth
                         label="Description"
                         margin="normal"
                         variant="outlined"
