@@ -105,55 +105,56 @@ class RecipeController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        // Validar los datos de entrada
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'cover_photo_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'description' => 'required|string',
-            'instructions' => 'required|string',
-            'cooking_time' => 'required|integer|min:1',
-            'servings' => 'nullable|integer|min:1|max:10',
-            'category_id' => 'required|integer',
-            'user_id' => 'required|integer', // Agrega la validación para user_id
-        ]);
-    
-        // Encontrar la receta existente
-        $recipe = Recipe::find($id);
-    
-        // Verificar si la receta existe
-        if (!$recipe) {
-            return response()->json(['message' => 'Recipe not found'], 404);
-        }
-    
-        // Actualizar los atributos de la receta
-        $recipe->title = $validated['title'];
-        $recipe->description = $validated['description'];
-        $recipe->instructions = $validated['instructions'];
-        $recipe->cooking_time = $validated['cooking_time'];
-        $recipe->servings = $validated['servings'];
-        $recipe->category_id = $validated['category_id'];  
-        $recipe->user_id = $validated['user_id'];  // Usa el user_id de la solicitud
-    
-        // Manejar la carga de una nueva imagen si se proporciona
-        if ($request->hasFile('cover_photo_url')) {
-            // Eliminar la imagen anterior si existe
-            if ($recipe->cover_photo_url && file_exists(public_path($recipe->cover_photo_url))) {
-                unlink(public_path($recipe->cover_photo_url));
-            }
-    
-            $file = $request->file('cover_photo_url');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('upload'), $filename);
-            $recipe->cover_photo_url = 'upload/' . $filename;
-        }
-    
-        // Guardar la receta actualizada
-        $recipe->save();
-    
-        // Retornar la respuesta
-        return response()->json($recipe, 200);
+{
+    // Validar los datos de entrada
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'cover_photo_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'description' => 'required|string',
+        'instructions' => 'required|string',
+        'cooking_time' => 'required|integer|min:1',
+        'servings' => 'nullable|integer|min:1|max:10',
+        'category_id' => 'required|integer',
+        'user_id' => 'required|integer', // Agrega la validación para user_id
+    ]);
+
+    // Encontrar la receta existente
+    $recipe = Recipe::find($id);
+
+    // Verificar si la receta existe
+    if (!$recipe) {
+        return response()->json(['message' => 'Recipe not found'], 404);
     }
+
+    // Actualizar los atributos de la receta
+    $recipe->title = $validated['title'];
+    $recipe->description = $validated['description'];
+    $recipe->instructions = $validated['instructions'];
+    $recipe->cooking_time = $validated['cooking_time'];
+    $recipe->servings = $validated['servings'];
+    $recipe->category_id = $validated['category_id'];
+    $recipe->user_id = $validated['user_id']; // Usa el user_id de la solicitud
+
+    // Manejar la carga de una nueva imagen si se proporciona
+    if ($request->hasFile('cover_photo_url')) {
+        // Eliminar la imagen anterior si existe
+        if ($recipe->cover_photo_url && file_exists(public_path($recipe->cover_photo_url))) {
+            unlink(public_path($recipe->cover_photo_url));
+        }
+
+        $file = $request->file('cover_photo_url');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('upload'), $filename);
+        $recipe->cover_photo_url = 'upload/' . $filename;
+    }
+
+    // Guardar la receta actualizada
+    $recipe->save();
+
+    // Retornar la respuesta
+    return response()->json($recipe, 200);
+}
+
     
     
 

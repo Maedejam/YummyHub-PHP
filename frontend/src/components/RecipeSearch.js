@@ -24,6 +24,12 @@ const RecipeSearch = ({ onSearch }) => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleKeyDown}
+                InputProps={{
+                    style: {
+                        backgroundColor: "#fff",
+                        borderRadius: "4px",
+                    },
+                }}
             />
             <Button
                 variant="contained"

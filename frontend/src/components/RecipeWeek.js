@@ -70,8 +70,8 @@ function RecipeWeek() {
     }
 
     return (
-        <Container maxWidth="lg" sx={{ padding: 4 }}>
-            <Typography variant="h5" component="h5" gutterBottom>
+        <Container maxWidth="lg" sx={{ pt: 5, mb: 10 }}>
+            <Typography variant="h5" component="h5" gutterBottom sx={{ pb: 3 }}>
                 Recipe of the Week
             </Typography>
             <Box sx={{ display: "flex", alignItems: "flex-start" }}>

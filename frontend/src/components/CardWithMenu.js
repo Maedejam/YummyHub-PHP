@@ -23,6 +23,13 @@ const CardWithMenu = ({ recipe, onDelete }) => {
         navigate(`/recipe/${recipe.id}`); // Redirige a la página de detalles con el ID de la receta
     };
 
+    const handleDelete = (e) => {
+        e.stopPropagation(); // Evita que el clic en el botón de eliminar propague el evento al card
+        if (window.confirm("Are you sure you want to delete this recipe?")) {
+            onDelete(recipe);
+        }
+    };
+
     return (
         <MUICard
             sx={{ position: "relative", cursor: "pointer" }}
@@ -54,13 +61,7 @@ const CardWithMenu = ({ recipe, onDelete }) => {
                     >
                         <EditIcon />
                     </IconButton>
-                    <IconButton
-                        onClick={(e) => {
-                            e.stopPropagation(); // Evita que el clic en el botón de eliminar propague el evento al card
-                            onDelete(recipe);
-                        }}
-                        color="error"
-                    >
+                    <IconButton onClick={handleDelete} color="error">
                         <DeleteIcon />
                     </IconButton>
                 </Box>
