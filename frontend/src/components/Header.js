@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const CustomAppBar = styled(AppBar)({
@@ -20,10 +20,8 @@ const CustomAppBar = styled(AppBar)({
 });
 
 const NavLinks = styled("div")({
-    marginLeft: "auto",
     marginRight: "auto",
     display: "flex",
-    alignItems: "center",
 });
 
 const NavLink = styled(Link)({
@@ -41,20 +39,26 @@ const AuthButtons = styled("div")({
 function Header() {
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
+    const BASE_URL = "http://localhost:3000/";
 
     return (
         <CustomAppBar>
             <Container maxWidth="lg">
                 <Toolbar>
                     <Typography variant="h6">
-                        <Link to="/" style={{ textDecoration: "none" }}>
-                            YummyHub
-                        </Link>
+                        <Box sx={{ width: "100%" }}>
+                            <Link to="/" style={{ textDecoration: "none" }}>
+                                <img
+                                    src={`${BASE_URL}Logo.png`}
+                                    alt="Yummy hub"
+                                    style={{ width: "70%", height: "auto" }}
+                                />
+                            </Link>
+                        </Box>
                     </Typography>
                     <NavLinks>
                         <NavLink to="/">Home</NavLink>
                         <NavLink to="/about">About</NavLink>
-                        <NavLink to="/contact">Contact</NavLink>
                         <NavLink to="/recipes">Recipes</NavLink>
                     </NavLinks>
                     <AuthButtons>

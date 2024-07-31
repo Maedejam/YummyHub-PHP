@@ -4,6 +4,7 @@ import { Container, Grid, Typography } from "@mui/material";
 import AllRecipes from "../components/AllRecipes";
 import RecipeSearch from "../components/RecipeSearch";
 import CategoryList from "../components/CategoryList";
+import { useLocation } from "react-router-dom";
 
 const Recipes = () => {
     const [categories, setCategories] = useState([]);
@@ -11,6 +12,8 @@ const Recipes = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [searching, setSearching] = useState(false); // Estado para indicar si se está buscando
+    const location = useLocation();
 
     // Función para obtener todas las recetas
     const fetchRecipes = async () => {
@@ -54,6 +57,7 @@ const Recipes = () => {
         fetchRecipes();
     }, []);
 
+    // Filtrar recetas por categoría
     const handleCategorySelect = async (categoryId) => {
         let updatedSelectedCategories;
         if (selectedCategories.includes(categoryId)) {
@@ -93,6 +97,7 @@ const Recipes = () => {
         }
     };
 
+    // Filtrar recetas por búsqueda
     const handleSearch = async (searchTerm) => {
         setLoading(true);
         setError("");
@@ -111,6 +116,23 @@ const Recipes = () => {
             setError("No recipes found");
         }
     };
+
+    // Detectar cambios en la búsqueda en la URL
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const search = params.get("search");
+        const category = params.get("category");
+        if (search) {
+            setSearching(true);
+            handleSearch(search);
+        } else if (category) {
+            setSearching(false);
+            handleCategorySelect(parseInt(category));
+        } else {
+            setSearching(false);
+            fetchRecipes();
+        }
+    }, [location.search]);
 
     return (
         <Container maxWidth="lg" sx={{ my: 10 }}>

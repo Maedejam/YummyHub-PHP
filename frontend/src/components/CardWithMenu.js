@@ -15,12 +15,20 @@ import { useNavigate } from "react-router-dom";
 const CardWithMenu = ({ recipe, onDelete }) => {
     const navigate = useNavigate();
 
+    console.log(recipe);
     const handleEdit = () => {
         navigate(`/recipe/edit/${recipe.id}`); // Redirige a la página de edición con el ID de la receta
     };
 
     const handleView = () => {
         navigate(`/recipe/${recipe.id}`); // Redirige a la página de detalles con el ID de la receta
+    };
+
+    const handleDelete = (e) => {
+        e.stopPropagation(); // Evita que el clic en el botón de eliminar propague el evento al card
+        if (window.confirm("Are you sure you want to delete this recipe?")) {
+            onDelete(recipe);
+        }
     };
 
     return (
@@ -35,7 +43,7 @@ const CardWithMenu = ({ recipe, onDelete }) => {
                 alt={recipe.title}
             />
             <CardContent>
-                <Typography variant="h6" component="div">
+                <Typography fontWeight={600} component="div">
                     {recipe.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -54,13 +62,7 @@ const CardWithMenu = ({ recipe, onDelete }) => {
                     >
                         <EditIcon />
                     </IconButton>
-                    <IconButton
-                        onClick={(e) => {
-                            e.stopPropagation(); // Evita que el clic en el botón de eliminar propague el evento al card
-                            onDelete(recipe);
-                        }}
-                        color="error"
-                    >
+                    <IconButton onClick={handleDelete} color="error">
                         <DeleteIcon />
                     </IconButton>
                 </Box>

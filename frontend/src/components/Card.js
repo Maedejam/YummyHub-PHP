@@ -13,7 +13,9 @@ const Card = ({ recipe }) => {
     const { id, cover_photo_url, title, cooking_time } = recipe;
 
     return (
-        <MUICard>
+        <MUICard
+            sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+        >
             <Link
                 to={`/recipe/${id}`}
                 style={{ textDecoration: "none", color: "inherit" }}
@@ -22,11 +24,11 @@ const Card = ({ recipe }) => {
                     <CardMedia
                         component="img"
                         height="140"
-                        image={cover_photo_url}
+                        image={`../${cover_photo_url}`}
                         alt={title}
                     />
                     <CardContent>
-                        <Typography variant="h6" component="div">
+                        <Typography component="div" fontWeight={600}>
                             {title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">

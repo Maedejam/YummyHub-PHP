@@ -24,9 +24,19 @@ const StarRating = styled("div")(({ votes }) => ({
         color: "gold",
     },
 }));
-
 const StyledCard = styled(Card)({
-    cursor: "pointer", // Cambia el cursor a puntero
+    cursor: "pointer",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100%", // Asegura que cada tarjeta ocupe el 100% de la altura de su contenedor
+});
+
+const CardContentStyled = styled(CardContent)({
+    flex: "1 0 auto", // Permite que el contenido se expanda
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between", // Para que el contenido se distribuya uniformemente
 });
 
 const RecipesCards = () => {
@@ -52,7 +62,12 @@ const RecipesCards = () => {
             <Box sx={{ mt: 6, mb: 4 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
-                        <Typography variant="h5" component="h1" gutterBottom>
+                        <Typography
+                            variant="h5"
+                            component="h1"
+                            gutterBottom
+                            fontWeight={600}
+                        >
                             Effortless Eats
                         </Typography>
                         <Typography component="h2">
@@ -62,11 +77,24 @@ const RecipesCards = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={4} alignItems="center">
-                        <Typography align="right">
-                            <Link href="#" variant="body1" color="primary">
-                                VIEW ALL RECIPES{" "}
+                        <Typography
+                            align="right"
+                            sx={{
+                                textDecoration: "none", // Quita el subrayado
+                                fontSize: "14px", // Ajusta el tamaño de la fuente
+                            }}
+                        >
+                            <Link
+                                to="/recipes" // Usar 'to' en lugar de 'href' si estás usando React Router
+                                variant="body1"
+                                color="primary"
+                                textDecoration="none"
+                            >
+                                VIEW ALL RECIPES
                             </Link>
-                            <ArrowForwardIcon sx={{ ml: 1 }} />
+                            <ArrowForwardIcon
+                                sx={{ ml: 1, fontSize: "14px" }}
+                            />
                         </Typography>
                     </Grid>
                 </Grid>
@@ -81,7 +109,7 @@ const RecipesCards = () => {
                                 image={recipe.cover_photo_url}
                                 alt={recipe.title}
                             />
-                            <CardContent>
+                            <CardContentStyled>
                                 <Typography
                                     gutterBottom
                                     component="div"
@@ -98,7 +126,7 @@ const RecipesCards = () => {
                                 <StarRating votes={recipe.votes}>
                                     ★★★★☆ ({recipe.votes} votes)
                                 </StarRating>
-                            </CardContent>
+                            </CardContentStyled>
                         </StyledCard>
                     </Grid>
                 ))}

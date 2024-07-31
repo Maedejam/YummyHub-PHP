@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Recipe;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -22,22 +23,28 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+        // Ensure the user is authenticated
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         // Validate the request
         $request->validate([
-            'user_id' => 'required|exists:users,id',
             'recipe_id' => 'required|exists:recipes,id',
             'content' => 'required|string|max:1000',
         ]);
 
         // Create a new comment
         $comment = Comment::create([
-            'user_id' => $request->input('user_id'),
+            'user_id' => $user->id, // Get the ID of the authenticated user
             'recipe_id' => $request->input('recipe_id'),
             'content' => $request->input('content'),
         ]);
 
         return response()->json($comment, 201);
     }
+
 
     /**
      * Update an existing comment.
@@ -97,19 +104,20 @@ class CommentController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function getCommentsByRecipe($recipeId)
-    {
-        // Find the recipe by ID
-        $recipe = Recipe::find($recipeId);
+{
+    // Find the recipe by ID
+    $recipe = Recipe::find($recipeId);
 
-        // Check if recipe exists
-        if (!$recipe) {
-            return response()->json(['message' => 'Recipe not found'], 404);
-        }
-
-        // Get comments associated with the recipe
-        $comments = $recipe->comments;
-
-        // Return comments as JSON response
-        return response()->json($comments);
+    // Check if recipe exists
+    if (!$recipe) {
+        return response()->json(['message' => 'Recipe not found'], 404);
     }
+
+    // Get comments associated with the recipe, including user details
+    $comments = $recipe->comments()->with('user')->get();
+
+    // Return comments as JSON response
+    return response()->json($comments);
+}
+
 }

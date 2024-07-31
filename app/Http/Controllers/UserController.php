@@ -5,9 +5,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+
 
 class UserController extends Controller
 {
+    
     public function index(){
         $users = User::all();
         return response()->json($users,200);
@@ -65,5 +69,43 @@ class UserController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+    
+    public function updatePassword(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'sometimes|required|string|max:255',
+        'email' => 'sometimes|required|email|unique:users,email,' . $id,
+        'password' => 'sometimes|required|string|min:8|confirmed',
+    ]);
+
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json(['error' => 'Usuario no encontrado.'], 404);
+    }
+
+    // Depuración
+    if ($request->filled('name')) {
+        $user->name = $request->name;
+    }
+    if ($request->filled('email')) {
+        $user->email = $request->email;
+    }
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+
+    // Intentar guardar el usuario
+    try {
+        $user->save();
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Error al guardar el usuario: ' . $e->getMessage()], 500);
+    }
+
+    return response()->json($user, 200);
+}
+
+
+    
     
 }

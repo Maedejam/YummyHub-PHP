@@ -15,6 +15,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware(['auth:sanctum'])->apiResource('user.recipes', RecipeController::class);
+Route::middleware('auth:sanctum')->post('/change-password/{id}', [UserController::class, 'updatePassword']);
 
 
 Route::get('/users', [UserController::class, 'index']);
@@ -30,6 +31,8 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::get('/category/{id}', [CateroryController::class, 'getRecipesByCategory']);
 //Get all categories
 Route::get('/categories', [CateroryController::class, 'index']);
+//get related recipes
+Route::get('/related-recipes/{id}', [RecipeController::class, 'getRelatedRecipes']);
 
 
 
@@ -53,3 +56,11 @@ Route::get('/categories', [CateroryController::class, 'index']);
 Route::get('/category/{id}', [CateroryController::class, 'getRecipesByCategory']);
 
 
+// get comments by recipe id
+Route::get('/recipe/{recipeId}/comments', [CommentController::class, 'getCommentsByRecipe']);
+
+// Create new comment
+Route::post('/comments', [CommentController::class, 'store'])->middleware('auth:sanctum');
+
+// Delete comment
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->middleware('auth:sanctum');

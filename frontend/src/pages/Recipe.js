@@ -1,24 +1,43 @@
 // src/pages/RecipePage.js
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Card from "../components/Card"; // Asegúrate de que la ruta sea correcta
+import Comments from "../components/Comments";
 
 function Recipe() {
     const [recipe, setRecipe] = useState(null);
+    const [relatedRecipes, setRelatedRecipes] = useState([]);
     const { id } = useParams(); // Obtén el ID de la URL
 
     useEffect(() => {
-        const apiUrl = `http://localhost:8000/api/recipe/${id}`;
+        const fetchRecipe = async () => {
+            const apiUrl = `http://localhost:8000/api/recipe/${id}`;
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                setRecipe(data);
+            } catch (error) {
+                console.error("Error fetching recipe:", error);
+            }
+        };
 
-        fetch(apiUrl)
-            .then((response) => response.json())
-            .then((data) => setRecipe(data))
-            .catch((error) => console.error("Error fetching recipe:", error));
+        const fetchRelatedRecipes = async () => {
+            const apiUrl = `http://localhost:8000/api/related-recipes/${id}`;
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                setRelatedRecipes(data);
+            } catch (error) {
+                console.error("Error fetching related recipes:", error);
+            }
+        };
+
+        fetchRecipe();
+        fetchRelatedRecipes();
     }, [id]);
 
     if (!recipe) return <div>Loading...</div>;
-
-    console.log(recipe);
 
     return (
         <Container maxWidth="lg" sx={{ py: 10 }}>
@@ -44,35 +63,17 @@ function Recipe() {
                     overflow: "hidden",
                 }}
             >
-                <Box
-                    sx={{
-                        flex: 1,
-                        textAlign: "center",
-                        zIndex: 1,
-                    }}
-                >
+                <Box sx={{ flex: 1, textAlign: "center", zIndex: 1 }}>
                     <Typography variant="h6">Cooking time:</Typography>
                     <span>Total Time: {recipe.cooking_time} mins</span>
                 </Box>
-                <Box
-                    sx={{
-                        flex: 1,
-                        textAlign: "center",
-                        zIndex: 1,
-                    }}
-                >
+                <Box sx={{ flex: 1, textAlign: "center", zIndex: 1 }}>
                     <Typography variant="h6">Category:</Typography>
-                    <span>{recipe.category_name} </span>
+                    <span>{recipe.category_name}</span>
                 </Box>
-                <Box
-                    sx={{
-                        flex: 1,
-                        textAlign: "center",
-                        zIndex: 1,
-                    }}
-                >
+                <Box sx={{ flex: 1, textAlign: "center", zIndex: 1 }}>
                     <Typography variant="h6">Servings:</Typography>
-                    <span>{recipe.servings} </span>
+                    <span>{recipe.servings}</span>
                 </Box>
             </Box>
 
@@ -80,11 +81,23 @@ function Recipe() {
                 <h2>Description:</h2>
             </Typography>
             <p>{recipe.description}</p>
-            <Typography sx={{ pt: 10 }}>
+            <Typography sx={{ pt: 1 }}>
                 <h2>Instructions:</h2>
             </Typography>
-
             <p>{recipe.instructions}</p>
+
+            <Typography sx={{ pt: 10 }}>
+                <h2>Related Recipes:</h2>
+            </Typography>
+            <Grid container spacing={2}>
+                {relatedRecipes.map((relatedRecipe) => (
+                    <Grid item xs={12} sm={6} md={3} key={relatedRecipe.id}>
+                        <Card recipe={relatedRecipe} />
+                    </Grid>
+                ))}
+            </Grid>
+
+            <Comments recipeId={recipe.id} />
         </Container>
     );
 }

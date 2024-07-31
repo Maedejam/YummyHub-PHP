@@ -47,7 +47,7 @@ const Footer = () => {
                             <a href="#">
                                 <img
                                     className="footer-icon"
-                                    src={require("../img/google-play.png")}
+                                    src={require("../img/get-it-on-google-play-badge.png")}
                                     alt="Get it on Google Play"
                                 />
                             </a>
@@ -93,7 +93,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className="footer-bottom">
-                <p>&copy; 2023 Brand. All rights reserved.</p>
+                <p>&copy; 2024 YummyHub. All rights reserved.</p>
             </div>
         </footer>
     );
