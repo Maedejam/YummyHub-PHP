@@ -15,6 +15,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware(['auth:sanctum'])->apiResource('user.recipes', RecipeController::class);
+Route::middleware('auth:sanctum')->post('/change-password/{id}', [UserController::class, 'updatePassword']);
 
 
 Route::get('/users', [UserController::class, 'index']);
@@ -30,6 +31,8 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::get('/category/{id}', [CateroryController::class, 'getRecipesByCategory']);
 //Get all categories
 Route::get('/categories', [CateroryController::class, 'index']);
+//get related recipes
+Route::get('/related-recipes/{id}', [RecipeController::class, 'getRelatedRecipes']);
 
 
 

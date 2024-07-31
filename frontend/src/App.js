@@ -11,12 +11,14 @@ import Recipe from "./pages/Recipe";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
-import RecipePage from "./pages/RecipePage";
 import Register from "./pages/Register";
 import Footer from "./components/Footer";
 import AddRecipe from "./pages/AddRecipe";
 import Recipes from "./pages/Recipes";
 import UpdateRecipe from "./pages/UpdateRecipe";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme"; // Importa el archivo del tema
+import AboutPage from "./components/About";
 
 function AppContent() {
     const location = useLocation();
@@ -36,9 +38,9 @@ function AppContent() {
                     <Route path="/recipe/add" element={<AddRecipe />} />
                     <Route path="/recipe/edit/:id" element={<UpdateRecipe />} />
                     <Route path="/recipes" element={<Recipes />} />
+                    <Route path="/about" element={<AboutPage />} />
                 </Routes>
             </div>
-
             {showHeader && <Footer />}
         </>
     );
@@ -47,7 +49,11 @@ function AppContent() {
 function App() {
     return (
         <Router>
-            <AppContent />
+            <ThemeProvider theme={theme}>
+                {" "}
+                {/* Envuelve tu contenido con ThemeProvider */}
+                <AppContent />
+            </ThemeProvider>
         </Router>
     );
 }

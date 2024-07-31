@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Snackbar, Alert } from "@mui/material";
+import {
+    Grid,
+    Snackbar,
+    Alert,
+    CircularProgress,
+    Box,
+    Typography,
+    Button,
+} from "@mui/material";
 import CardWithMenu from "./CardWithMenu";
 
 const RecipesByUserCards = ({ userId }) => {
     const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(true); // Estado para controlar la carga
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -28,6 +37,8 @@ const RecipesByUserCards = ({ userId }) => {
                 setRecipes(data);
             } catch (error) {
                 console.error("Error fetching recipes:", error);
+            } finally {
+                setLoading(false); // Finaliza la carga
             }
         };
 
@@ -78,17 +89,65 @@ const RecipesByUserCards = ({ userId }) => {
 
     return (
         <>
-            <Grid container spacing={2} sx={{ mb: 5 }}>
-                {recipes.map((recipe) => (
-                    <Grid item xs={12} sm={6} md={3} key={recipe.id}>
-                        <CardWithMenu
-                            recipe={recipe}
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
+            {loading ? (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100vh",
+                    }}
+                >
+                    <CircularProgress />
+                </Box>
+            ) : (
+                <Box>
+                    {recipes.length > 0 ? (
+                        <Grid container spacing={2} sx={{ mb: 5 }}>
+                            {recipes.map((recipe) => (
+                                <Grid
+                                    item
+                                    xs={12}
+                                    sm={6}
+                                    md={3}
+                                    key={recipe.id}
+                                >
+                                    <CardWithMenu
+                                        recipe={recipe}
+                                        onEdit={handleEdit}
+                                        onDelete={handleDelete}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    ) : (
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                height: "50vh",
+                                textAlign: "center",
+                            }}
+                        >
+                            <Typography variant="h6" gutterBottom>
+                                It looks like you don't have any recipes yet.
+                                Start creating your first recipe!
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ mt: 2 }}
+                                component="a"
+                                href="/recipe/add"
+                            >
+                                Add a Recipe
+                            </Button>
+                        </Box>
+                    )}
+                </Box>
+            )}
 
             {/* Snackbar for notifications */}
             <Snackbar

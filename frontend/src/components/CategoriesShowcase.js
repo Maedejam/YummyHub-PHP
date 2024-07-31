@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const CategoriesShowcase = () => {
     const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("http://127.0.0.1:8000/api/categories")
@@ -12,6 +14,10 @@ const CategoriesShowcase = () => {
                 console.error("Error fetching categories:", error)
             );
     }, []);
+
+    const handleCategoryClick = (categoryId) => {
+        navigate(`/recipes?category=${categoryId}`);
+    };
 
     return (
         <Box
@@ -67,7 +73,9 @@ const CategoriesShowcase = () => {
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             cursor: "pointer",
+                            backgroundImage: `url(${category.imageUrl})`, // Asegúrate de que cada categoría tenga una propiedad `imageUrl` para la imagen de fondo
                         }}
+                        onClick={() => handleCategoryClick(category.id)} // Añadido el manejador de clic
                     >
                         <Box
                             sx={{

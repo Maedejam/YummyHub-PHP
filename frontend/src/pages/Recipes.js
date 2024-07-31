@@ -54,11 +54,8 @@ const Recipes = () => {
         };
 
         fetchCategories();
-        // Solo buscar todas las recetas si no estamos buscando
-        if (!searching) {
-            fetchRecipes();
-        }
-    }, [searching]); // Dependencia añadida para reaccionar a los cambios de `searching`
+        fetchRecipes();
+    }, []);
 
     // Filtrar recetas por categoría
     const handleCategorySelect = async (categoryId) => {
@@ -124,9 +121,13 @@ const Recipes = () => {
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const search = params.get("search");
+        const category = params.get("category");
         if (search) {
             setSearching(true);
             handleSearch(search);
+        } else if (category) {
+            setSearching(false);
+            handleCategorySelect(parseInt(category));
         } else {
             setSearching(false);
             fetchRecipes();

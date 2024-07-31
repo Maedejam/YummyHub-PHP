@@ -62,7 +62,12 @@ const RecipesCards = () => {
             <Box sx={{ mt: 6, mb: 4 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
-                        <Typography variant="h5" component="h1" gutterBottom>
+                        <Typography
+                            variant="h5"
+                            component="h1"
+                            gutterBottom
+                            fontWeight={600}
+                        >
                             Effortless Eats
                         </Typography>
                         <Typography component="h2">

@@ -187,6 +187,15 @@ class RecipeController extends Controller
     }
 
 
-   
+    public function getRelatedRecipes($id)
+    {
+        // Obtén las recetas relacionadas, por ejemplo, por categoría.
+        $recipe = Recipe::findOrFail($id);
+        $relatedRecipes = Recipe::where('category_id', $recipe->category_id)
+            ->where('id', '!=', $id)
+            ->take(4)
+            ->get();
+        return response()->json($relatedRecipes);
+    }
 
 }

@@ -71,7 +71,13 @@ function RecipeWeek() {
 
     return (
         <Container maxWidth="lg" sx={{ pt: 5, mb: 10 }}>
-            <Typography variant="h5" component="h5" gutterBottom sx={{ pb: 3 }}>
+            <Typography
+                variant="h5"
+                component="h5"
+                gutterBottom
+                sx={{ pb: 3 }}
+                fontWeight={600}
+            >
                 Recipe of the Week
             </Typography>
             <Box sx={{ display: "flex", alignItems: "flex-start" }}>
@@ -83,7 +89,12 @@ function RecipeWeek() {
                     />
                 </Card>
                 <Box>
-                    <Typography variant="h6" component="h2" gutterBottom>
+                    <Typography
+                        variant="h6"
+                        component="h2"
+                        gutterBottom
+                        fontWeight={560}
+                    >
                         <Link
                             href={`/recipe/${recipe.id}`}
                             color="inherit"

@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 const CardWithMenu = ({ recipe, onDelete }) => {
     const navigate = useNavigate();
 
+    console.log(recipe);
     const handleEdit = () => {
         navigate(`/recipe/edit/${recipe.id}`); // Redirige a la página de edición con el ID de la receta
     };
@@ -42,7 +43,7 @@ const CardWithMenu = ({ recipe, onDelete }) => {
                 alt={recipe.title}
             />
             <CardContent>
-                <Typography variant="h6" component="div">
+                <Typography fontWeight={600} component="div">
                     {recipe.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
